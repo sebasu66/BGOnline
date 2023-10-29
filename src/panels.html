@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Boardgame App</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="menu">
+        <button onclick="togglePanel(0)">Main Board</button>
+        <button onclick="togglePanel(1)">My Table</button>
+        <button onclick="togglePanel(2)">Game Box</button>
+        <button onclick="togglePanel(3)">My Hand</button>
+        <!-- Repeat for other panels -->
+    </div>
+    <div id="grid-container"></div>
+    <script src="settings.js"></script>
+    <script src="panels.js"></script>
+</body>
+</html>
