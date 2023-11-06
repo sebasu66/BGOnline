@@ -48,6 +48,36 @@ let card =addCard(cardOptions);
 //socket.socket.emit('objects', objects); // Send the new position to the server
 }
 createButton("addCard", 100,10,150,100, addCardButtonFunction, canvas);
+//background Image TO BE DRAWN on tiles
+let backgroundImage = new fabric.Image.fromURL("/resources/wood.jpg", function (
+  img
+) {
+  img.set({
+    left: 0,
+    top: 0,
+    width: GAME.canvas.width,
+    height: GAME.canvas.height,
+    selectable: false,
+  });
+  GAME.canvas.setBackgroundImage(img, GAME.canvas.renderAll.bind(GAME.canvas));
+});
 
+GAME.canvas.on("object:moving", function (options) { });
+
+GAME.canvas.on("object:modified", function (options) {
+  addLog(
+    "dragged " +
+    options.target.id +
+    " to " +
+    options.target.left +
+    "," +
+    options.target.top,
+    GAME.canvas
+  );
+  socket.socket.emit("move", {
+    id: options.target.id,
+    pos: { x: options.target.left, y: options.target.top },
+  }); // Send the new position to the server
+});
 
 

@@ -1,3 +1,3 @@
 ::run Node.js server
-node ./src/index.js
+node ./src/server/index.js
 

@@ -1,29 +1,50 @@
-let activePanels = [true, true, true, true];  // Initially, all panels are active
 
-function togglePanel(panelIndex) {
-    if (!activePanels[panelIndex] || activePanels.filter(Boolean).length > 1) {
-        activePanels[panelIndex] = !activePanels[panelIndex];
-        updateGrid();
+
+
+let show=false;
+function toggleMenu() {
+    //animate the menu containner
+    //from shape swauerd, big zise and transparent to a small
+    //circle in the bottom right corner opacity 1
+    //in 0,1s
+
+    //get the menu container
+    let menuContainer = document.getElementById("menuContainer");
+    //get the menu button
+    if(!show){
+        menuContainer.style.transform = "scale(1)";
+        menuContainer.style.opacity = "1";
+        show=true;
+        //morph to a circle
+        menuContainer.style.borderRadius = "50%";
+        menuContainer.style.width = "50px";
+        menuContainer.style.height = "50px";
+        menuContainer.style.margin = "0px";
+        menuContainer.style.padding = "0px";
+        menuContainer.style.border = "0px";
+        menuContainer.style.backgroundColor = "rgba(0,0,0,0.5)";
+    }else{
+        menuContainer.style.transform = "scale(0.1)";
+        menuContainer.style.opacity = "0.1";
+        show=false;
+        //morph to a circle
+        menuContainer.style.borderRadius = "50%";
+        menuContainer.style.width = "50px";
+        menuContainer.style.height = "50px";
+        menuContainer.style.margin = "0px";
+        menuContainer.style.padding = "0px";
+        menuContainer.style.border = "0px";
+        menuContainer.style.backgroundColor = "rgba(0,0,0,0.5)";
     }
-}
 
-function updateGrid() {
-    const gridContainer = document.getElementById('grid-container');
-    gridContainer.innerHTML = '';  // Clear existing panels
+  }
+  
+  var items = document.querySelectorAll("#menuContainer > div");
+  items.forEach(item => {
     
-    activePanels.forEach((isActive, index) => {
-        if (isActive) {
-            const panel = document.createElement('div');
-            panel.classList.add('panel');
-            panel.innerHTML = `<div class="panel-title">${settings.panelTitles[index]}</div><canvas></canvas>`;
-            // Setup Fabric.js canvas within panel...
-            gridContainer.appendChild(panel);
-        }
+    item.addEventListener('click', (event) => {
+      event.target.style.transform = "scale(1.2)";
+      setTimeout(() => event.target.style.transform = "", 500);
     });
-
-    // Update grid columns based on active panel count
-    const activePanelCount = activePanels.filter(Boolean).length;
-    gridContainer.style.gridTemplateColumns = `repeat(${activePanelCount}, 1fr)`;
-}
-
-updateGrid();  // Initial grid setup
+  });
+  

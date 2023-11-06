@@ -3,7 +3,7 @@
       "target": "ES6"
     },
     "include": [
-      "src/**/*",
+      "src/**/**/**/*",
       "node_modules/@types/**/*"
     ]
   }

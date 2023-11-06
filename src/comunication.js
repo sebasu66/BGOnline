@@ -1,4 +1,4 @@
-import { addCard, updateFromJson } from "./fabricImpl.js";
+import { addCard } from "./fabricImpl.js";
 
 class SocketClient {
     constructor(_url = "http://localhost:3000") {
@@ -8,10 +8,12 @@ class SocketClient {
         this.playerId = null;
     }
 
+    //update local view
     askForRedraw(_detail) {
         let event = new CustomEvent("pending_redraw", { detail: _detail });
         document.dispatchEvent(event);
     }
+    //emit a local event with the message received for the ui layer to display
     broadcastMessage(_message, _data) {
         let event = new CustomEvent("message_received", { detail: _message + " received: " + JSON.stringify(_data) });
         document.dispatchEvent(event);
@@ -34,14 +36,7 @@ class SocketClient {
             this.askForRedraw("objects");
 
         });
-        this.socket.on('positions', (positions) => {
-            for (let id in positions) {
-                if (this.objects[id]) {
-                    this.objects[id].position = positions[id];
-                }
-            }
-            this.askForRedraw("positions");
-        });
+        
         this.socket.on('playerId', (playerId) => {
             this.playerId = playerId;
             console.log("playerId received: " + this.playerId);
@@ -50,12 +45,21 @@ class SocketClient {
     }
 
     sendMessage(_message, _data) {
+        //allowed messages: create, modify, remove
         if (this.connected) {
-            this.socket.emit(_message, _data);
+            if (_message == "create" || _message == "modify" || _message == "remove" || _message == "postFullState") {
+                this.socket.emit(_message, _data);
+            } else {
+                console.log("ERROR: sendMessage: message not allowed: " , _message);
+            }
+        }else{
+            console.log("ERROR: sendMessage: not connected");
         }
     }
 }
 
+//a list of canvas layers
+let gameCanvases = [];
 // Store all the object instances currently created to be drawn
 let objects = [];
 
@@ -65,7 +69,7 @@ let state = {};
 
 //geerate state object by getting each object's json
 //and store it in the state object
-function generateState() {
+function generateLocalState() {
     for (let i = 0; i < objects.length; i++) {
         state[objects[i].id] = objects[i].toJson();
     }
@@ -74,10 +78,6 @@ function generateState() {
 //update the state object received from the server
 function updateState(_s) {
 
-    //remove any undefined object in ibjects
-    objects = objects.filter(function (el) {
-        return el != null;
-    });
 
     console.log("updateState: " + JSON.stringify(_s))
 
@@ -90,7 +90,7 @@ function updateState(_s) {
         for (let i = 0; i < objects.length; i++) {
             if (objects[i].id == id) {
                 found = true;
-                updateFromJson(_s[id], objects[i]);
+                objects[i].updateFromJson(_s[id]);
             }
         }
         if (!found) {
@@ -104,9 +104,11 @@ function updateState(_s) {
 
 
 //post the state object to the server
-const syncWithServer = () => {
-    generateState();
+ const syncWithServer = () => {
+    if(socket && socket.connected){
+    generateLocalState();
     socket.sendMessage("postFullState", state);
+    }
 }
 
 

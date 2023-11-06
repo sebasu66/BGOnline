@@ -1,38 +1,37 @@
-import  {addCard } from './fabricImpl.js';
 import { drawUI, addLog, createButton } from './ui.js';
 import {socket,objects} from './comunication.js';
+//import { Intersection } from 'fabric/fabric-impl.js';
 
 
 socket.connect();   
-//listen to the "pending_redraw" event
-document.addEventListener("pending_redraw", (e) => {
-   console.log("pending_redraw");
-    draw();
-});
-
-//message received from the server listener
-document.addEventListener("message_received", (e) => {
-        addLog(e.detail);
-    }
-);
-
-    drawUI(socket.playerId);
 
 function draw() {
   GAME.canvas.renderAll();
 }
+//table texture
 
+function loadCanvasBKGPattern(url) {
+  let img = document.getElementById('BL');
+    var pattern = new fabric.Pattern({
+      source:img,
+         repeat: 'repeat'
+    });
+  
+    GAME.canvas.setBackgroundColor({source: pattern.source, repeat: 'repeat'}, function() {
+      GAME.canvas.renderAll();
+    });
+  }
 
-//create a card
+loadCanvasBKGPattern('resources/bl.jpg');
+GAME.canvas.setZoom(0.5); // Zoom out to 50%
 
-    //card optoins ojbect
-
+/*
 const cardOptions = {
     left: 80,
     top: 80,
     stroke: "rgb(0,0,10)",
-    strokeWidth: 2,
-    shadow: "rgba(0,0,0,0.5) 5px 5px 5px",
+    strokeWidth: 5,
+    shadow: "rgba(0,0,0,0.5) 10px 10px 10px",
     selectable: true,
     id: "card" + objects.length,
     sideUP: "front",
@@ -40,11 +39,45 @@ const cardOptions = {
     backImage: "/resources/b1.png",
     flipeable: true
   };
-  let card = addCard(cardOptions, false,()=>{
+  let cardOptions2 = cardOptions;
+  cardOptions2.frontImage = "/resources/f02.png";
+  cardOptions2.left = 200;
+  
+  addCard(cardOptions, false,(_card)=>{
     console.log("card created")
-GAME.canvas.add(card);
+    _card.setupControls();
+GAME.canvas.add(_card);
   }
   );
+
+  addCard(cardOptions2, false,(_card)=>{
+    console.log("card created")
+    _card.setupControls();
+GAME.canvas.add(_card);
+  }
+  );
+*/
+  const InteractiveComponentGrpOptions = {
+    left: 80,
+    top: 80,
+    stroke: "rgb(0,0,10)",
+    strokeWidth: 5,
+    shadow: "rgba(0,0,0,0.5) 10px 10px 10px",
+    selectable: true,
+    id: "ncard" + objects.length,
+    sideUp: "front",
+    frontImage: "/resources/games/Root_ES/cards/f1.png",
+    backImage: "/resources/games/Root_ES/cards/back.png",
+    flipeable: true
+  };
+
+  GAME.createInteractiveComponentGrp (InteractiveComponentGrpOptions, (newCard)=>{
+    console.log("card created: ", newCard);
+    GAME.canvas.add(newCard);
+    draw();
+  });
+
+
   
 let deleteIcon = "/resources/icons/delete.png";
 let cloneIcon = "/resources/icons/take.png";
@@ -64,7 +97,7 @@ const deleteObject = function (eventData, transform) {
     clone.set("left", clone.left + 10);
     clone.set("top", clone.top + 10);
     canvas.add(clone);
-    canvas.requestRenderAll();
+    canvas.requestRenderAll();  
   };
 
 fabric.Object.prototype.setupControls= function(obj) {
@@ -75,6 +108,9 @@ fabric.Object.prototype.setupControls= function(obj) {
 
     this.set('deleteControl', deleteControl);
     this.set('cloneControl', cloneControl);
+    this.controls.deleteControl = deleteControl;
+    this.controls.cloneControl = cloneControl;
+
   }
 
 
@@ -91,7 +127,7 @@ function createCustomControl(imgPath, mouseUpHandler, options) {
     cursorStyle: options.cursorStyle || 'pointer',
     mouseUpHandler: mouseUpHandler,
     render: renderIcon(iconImg),
-    cornerSize: options.cornerSize || 24
+    cornerSize: options.cornerSize || 64
   });
 
   return control;
@@ -111,18 +147,45 @@ function renderIcon  (icon) {
 
 // Event handlers to show/hide controls on long touch
 var touchTimeout;
-GAME.canvas.on('mouse:down', function() {
+fabric.Object.prototype.on('mousedown', function( options ) {
+  //get the object being clicked from the event
+  var obj = options.target;
+  
+  console.log("mousedown on ", obj  );
+  GAME.canvas.setActiveObject(obj);
+  addMouseMovementListener();
   touchTimeout = setTimeout(function() {
     var activeObject = GAME.canvas.getActiveObject();
-    //if (activeObject && activeObject.type === 'Card') {
-      activeObject.set('hasControls', true);
-      GAME.canvas.renderAll();
-    //}
+    console.log("long touch on ", activeObject  );
+    
   }, 1000);  // Adjust the timeout to your preference for a long touch
 });
 
-GAME.canvas.on('mouse:up', function() {
+function addMouseMovementListener() {
+  fabric.Object.prototype.on('mousemove', function(options) {
+    var obj = options.target;
+    if (obj && obj.canBeDragged()) {
+      console.log("mousemove on ", obj  );
+      obj.dragStart();
+    }
+    
+  });
+}                   
+
+function removeMouseMovementListener() {
+  fabric.Object.prototype.off('mousemove');
+}
+
+fabric.Object.prototype.on('mouseup', function(options) {
   clearTimeout(touchTimeout);
+  var obj = options.target;
+  console.log("mouseup on ", obj  );  
+  removeMouseMovementListener();
+  if (obj && obj.isDragging) {
+                      obj.dragEnd();
+    obj.set('hasControls', true);
+    GAME.canvas.renderAll();
+  }
 });
 
 
@@ -145,6 +208,8 @@ const cardDeckOptions = {
 };
 
 //createDeck(cardDeckOptions);
+
+
 
 
 

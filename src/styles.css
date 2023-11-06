@@ -17,9 +17,8 @@ body {
     background-color: #000;
     /*full screen*/
     height: 100vh;
-    
-    grid-template-columns: repeat(auto-fill, minmax(100px, 10fr));
-    transition: grid-template-columns 0.3s ease-in-out;
+    grid-template-rows: repeat(auto-fill, minmax(100px, 10fr));
+    transition: grid-template-rows 0.3s ease-in-out;
 }
 
 .panel {
@@ -36,3 +35,31 @@ body {
     text-transform: capitalize, bold;
     
 }
+
+#playerUI {
+    display: block;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /*background-color: #000;*/
+    color: #fff;
+    padding: 10px;
+        position: absolute;
+        z-index: 1000;
+        bottom: 0px;
+        right: 0px;
+        width: 300px;
+        height: 400px;
+    
+}
+
+#menuContainer {
+    background-color: grey;
+    transition: 0.5s all ease-in-out;
+  }
+  
+  #menuItem1, #menuItem2 {
+    padding: 10px;
+    transition: 0.5s all ease-in-out;
+  }
+  

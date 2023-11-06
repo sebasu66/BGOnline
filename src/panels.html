@@ -5,17 +5,47 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your Boardgame App</title>
     <link rel="stylesheet" href="styles.css">
+    <!--run scripts on windows load-->
+    <script src="/socket.io/socket.io.js" ></script>
+    <script src="https://unpkg.com/fabric@5.3.0/dist/fabric.min.js"></script>
+    <!--import uuid as uuid-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.3.2/uuid.min.js"></script>
+    <!--import main-->
+    <script type="module" src="./globalInteractionManager.js"></script>
+    <script type="module" src="./test.js" defer></script>
 </head>
 <body>
     <div id="menu">
-        <button onclick="togglePanel(0)">Main Board</button>
-        <button onclick="togglePanel(1)">My Table</button>
-        <button onclick="togglePanel(2)">Game Box</button>
+        <button onclick="togglePanel(0)">Game Box</button>
+        <button onclick="togglePanel(1)">Main Board</button>
+        <button onclick="togglePanel(2)">My Table</button>
         <button onclick="togglePanel(3)">My Hand</button>
         <!-- Repeat for other panels -->
     </div>
-    <div id="grid-container"></div>
-    <script src="settings.js"></script>
+    <div id="grid-container">
+        <div id="gameBoxDiv" class="panel, gameBoxDiv">
+            <!-- Game Box -->
+        </div>
+        <div id="mainBoardDiv" class="panel; mainBoardDiv">
+            <!-- Main Board -->
+            <!--canvas-->
+            <img id="BL" src="./resources/bl3.jpg" style="display: none;"/>
+            <canvas id="mainBoardCanvas" width="800" height="600"></canvas>
+        </div>
+        <div id="playerTableDiv" class="panel, playerTableDiv">
+            <!-- My Table -->
+        </div>
+        <!-- Repeat for other panels -->
+    </div>
+    <div id="playerUI" class="playerUI">
+        <!-- My Hand -->
+    <div id="menuContainer" onClick="toggleMenu()">
+    <div id="menuItem1">Item 1</div>
+    <div id="menuItem2">Item 2</div>
+    <!--add more menu items here -->
+</div>
+    </div>
+    
     <script src="panels.js"></script>
 </body>
 </html>

@@ -1,77 +1,7 @@
 import { socket, objects, syncWithServer } from './comunication.js';
 import { addLog } from "./ui.js";
 
-//change zooming to use the mouse wheel
-GAME.canvas.on("mouse:wheel", function (opt) {
-  var delta = opt.e.deltaY;
-  var zoom = GAME.canvas.getZoom();
-  console.log("zoom", zoom);
-  zoom *= 0.999 ** delta;
-  if (zoom > 20) zoom = 20;
-  if (zoom < 0.01) zoom = 0.01;
-  GAME.canvas.zoomToPoint({ x: opt.e.offsetX, y: opt.e.offsetY }, zoom);
-  opt.e.preventDefault();
-  opt.e.stopPropagation();
-});
 
-
-
-function dragObj(obj) {
-  //simulate liftin the card by moving it up and left
-  // by 20px and adapting the shadow position, size and blur
-  return function () {
-    obj.animate(
-      {
-        scaleX: 1.1,
-        scaleY: 1.1,
-        //shadow: "rgba(0,0,0,0.5) 20px 20px 30px",
-      },
-      {
-        duration: 200,
-        onChange: GAME.canvas.renderAll.bind(GAME.canvas),
-        onComplete: function () { },
-        easing: fabric.util.ease.easeInOutQuad,
-      }
-    );
-  }
-}
-
-function dragObjEnd(obj) {
-  return function () {
-    //simulate dropping the card by moving it down and right
-    // by 20px and adapting the shadow position, size and blur
-    obj.animate(
-      {
-        top: "-=20",
-        left: "+=20",
-        scaleX: 1,
-        scaleY: 1,
-      },
-      {
-        duration: 200,
-        onChange: GAME.canvas.renderAll.bind(GAME.canvas),
-        onComplete: function () { },
-        easing: fabric.util.ease.easeInOutQuad,
-      }
-    );
-  }
-}
-
-const updateFromJson = (json, obj) => {
-  //call flip if the sideUP is different
-  if (json.sideUP != obj.sideUP) {
-    obj.flip();
-  }
-  obj.animate({
-    left: json.left,
-    top: json.top
-  }, {
-    duration: 100,
-    onChange: GAME.canvas.renderAll.bind(GAME.canvas),
-    onComplete: function () { },
-    easing: fabric.util.ease.easeInOutQuad,
-  });
-}
 
 
 
@@ -147,34 +77,17 @@ function addCard(options, propagate = true, callback = function (card) { }) {
     card.applyFilters();
 
     //listen for clicks on the card, and flip it
-    let isDragging = false;
-   /* card.on("mousedown", function (options) {
-      //double click?
-      if (options.e.detail === 2) {
-        card.flip();
-        syncWithServer();
-      } else {
-        card.isDragging = true;
-        card.dragStart();
-      }
-    });
-    card.on("mouseup", function (options) {
-      if (card.isDragging) {
-        card.isDragging = false;
-        card.dragEnd();
-        syncWithServer();
-      }
-      card.isDragging = false;
-    });
-
-    GAME.canvas.add(card);
+    //let isDragging = false;
+    //card.canBeDragged = () => {return true};
+    
+    //GAME.canvas.add(card);
     objects.push(card);
     if (propagate) {
       //only when the card is added locally
       //send the new state to the server to be propagated
       //to the other players
       syncWithServer();
-    }*/
+    }
     callback(card)
   }
 
@@ -289,38 +202,8 @@ let cardGenBkg = new fabric.Image.fromURL("/resources/b.png", function (
 });
 */
 
-//background Image TO BE DRAWN on tiles
-let backgroundImage = new fabric.Image.fromURL("/resources/wood.jpg", function (
-  img
-) {
-  img.set({
-    left: 0,
-    top: 0,
-    width: GAME.canvas.width,
-    height: GAME.canvas.height,
-    selectable: false,
-  });
-  GAME.canvas.setBackgroundImage(img, GAME.canvas.renderAll.bind(GAME.canvas));
-});
-
-GAME.canvas.on("object:moving", function (options) { });
-
-GAME.canvas.on("object:modified", function (options) {
-  addLog(
-    "dragged " +
-    options.target.id +
-    " to " +
-    options.target.left +
-    "," +
-    options.target.top,
-    GAME.canvas
-  );
-  socket.socket.emit("move", {
-    id: options.target.id,
-    pos: { x: options.target.left, y: options.target.top },
-  }); // Send the new position to the server
-});
 
 
 
-export { addCard, updateFromJson };
+
+export { addCard };
