@@ -1,9 +1,19 @@
-import  {addCard } from './fabricImpl.js';
-import { drawUI, addLog, createButton } from './ui.js';
-import {socket,objects} from './comunication.js';
+//import  {addCard } from './card.js';
+import { drawUI, addLog, createButton,initUI } from './ui.js';
+import {socketClient}  from './serverComunication.js';
+
+initUI();
+//listen and print all events
+document.addEventListener("*", function (e) {
+  console.log("event: " + e.type + " data: " + JSON.stringify(e.detail));
+});
+socketClient.connectToMainServer();
+
+//star fabric canvas
 
 
-socket.connect();   
+
+
 //listen to the "pending_redraw" event
 document.addEventListener("pending_redraw", (e) => {
    console.log("pending_redraw");
@@ -16,7 +26,7 @@ document.addEventListener("message_received", (e) => {
     }
 );
 
-    drawUI(socket.playerId);
+    drawUI(socketClient.playerId);
 
 function draw() {
   GAME.canvas.renderAll();
@@ -45,22 +55,44 @@ const cardOptions = {
 let card =addCard(cardOptions);
 //objects.push(card);
 //send objects to the server
-//socket.socket.emit('objects', objects); // Send the new position to the server
+//socketClient.socketClient.emit('objects', objects); // Send the new position to the server
 }
-createButton("addCard", 100,10,150,100, addCardButtonFunction, canvas);
+//createButton("addCard", 100,10,150,100, addCardButtonFunction, canvas);
 //background Image TO BE DRAWN on tiles
-let backgroundImage = new fabric.Image.fromURL("/resources/wood.jpg", function (
-  img
-) {
-  img.set({
-    left: 0,
-    top: 0,
-    width: GAME.canvas.width,
-    height: GAME.canvas.height,
-    selectable: false,
-  });
-  GAME.canvas.setBackgroundImage(img, GAME.canvas.renderAll.bind(GAME.canvas));
-});
+let tablesize=10000;
+fabric.Object.prototype.transparentCorners = false;
+
+  function loadPattern(url) {
+    fabric.util.loadImage(url, function(img) {
+      var pattern = new fabric.Pattern({
+        source: img,
+        repeat: 'no-repeat',
+        selectable: false,
+        hasBorders: false,
+        hasControls: false
+      });
+  
+      var rectSize = img.width -5;
+      for (var i = 0; i < tablesize; i += rectSize) {
+        for (var j = 0; j < tablesize; j += rectSize) {
+          var rect = new fabric.Rect({
+            left: i,
+            top: j,
+            width: rectSize,
+            height: rectSize,
+            fill: pattern,
+            selectable: false,
+            hasBorders: false,
+            hasControls: false
+          });
+          GAME.canvas.add(rect);
+        }
+      }
+      GAME.canvas.renderAll();
+    });
+  }
+
+  loadPattern('resources/green3.jpg');
 
 GAME.canvas.on("object:moving", function (options) { });
 
@@ -74,7 +106,7 @@ GAME.canvas.on("object:modified", function (options) {
     options.target.top,
     GAME.canvas
   );
-  socket.socket.emit("move", {
+  socketClient.mainServersocketClient.emit("move", {
     id: options.target.id,
     pos: { x: options.target.left, y: options.target.top },
   }); // Send the new position to the server

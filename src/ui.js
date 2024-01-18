@@ -1,6 +1,82 @@
-//import e from "express";
+/**
+ * ui.js -- UI related functions
+ * 
+ */
+
+import * as evt from "./internalCommEvent.js";
+
+//listen to communication events, create an event -> callback map
 
 let logs = [];
+
+export function initUI() {
+
+evt.registerEventListeners(evt.eventNames.connected_to_main_server, (e) => {
+    addLog("Conectado al servidor principal");
+})
+
+evt.registerEventListeners(evt.eventNames.disconnected_from_main_server, (e) => {
+    addLog("Desconectado del servidor principal");
+})
+
+evt.registerEventListeners(evt.eventNames.connected_to_game_server, (e) => {
+    addLog("Conectado al servidor de juego");
+})
+
+evt.registerEventListeners(evt.eventNames.disconnected_from_game_server, (e) => {
+    addLog("Desconectado del servidor de juego");
+})
+
+evt.registerEventListeners(evt.eventNames.obtained_game_servers_list, (e) => {
+    updateLGSList(e.detail);
+})
+
+//set refresh button listener
+let refreshButton = document.getElementById("refreshLGSListButton");
+refreshButton.addEventListener("click", function () {
+    console.log("refresh LGSList button clicked");
+    document.dispatchEvent(new Event(evt.eventNames.refresh_game_servers_list));
+}
+);
+
+}
+//get  and update the table of local game servers
+/*<table id="servers">
+            <tr>
+                <th>Server</th>
+                <th>Players</th>
+                <th>Join</th>
+            </tr>
+        </table>*/
+export function updateLGSList(_LGSList) {
+    let table = document.getElementById("servers");
+    //clear table
+    table.innerHTML = "";
+    //add column titles again
+    let row = table.insertRow();
+    let cell1 = row.insertCell();
+    let cell2 = row.insertCell();
+    let cell3 = row.insertCell();
+    cell1.innerHTML = "<b>Server</b>";
+    cell2.innerHTML = "<b>Players</b>";
+    cell3.innerHTML = "<b>Join</b>";
+
+    //add rows
+    for (let i = 0; i < _LGSList.length; i++) {
+        let row = table.insertRow();
+        let cell1 = row.insertCell();
+        let cell2 = row.insertCell();
+        let cell3 = row.insertCell();
+        cell1.innerHTML = _LGSList[i].name;
+        cell2.innerHTML = _LGSList[i].players;
+        cell3.innerHTML = "<button onclick=\"document.dispatchEvent(new CustomEvent('connect_to_game_server', {detail: '" + _LGSList[i].url + "'}));\">Join</button>";
+    }
+
+    }
+
+
+
+//  ----------    canvas ui      ----------------------
 
 export function drawUI(_playerId){
     //put a label with the player id
@@ -51,28 +127,26 @@ export function createButton(_text, _left, _top, _width, _height, _callback){
 
 export function addLog(_log){
     logs.push(_log);
-    drawLogs();
+    update_state();
 }
-let logLabels = [];
-function drawLogs(){
-    //clear previous logs
-    for(let i = 0; i < logLabels.length; i++){
-        GAME.canvas.remove(logLabels[i]);
+
+function update_state(){
+    //get the state div
+    let stateDiv = document.getElementById("status-list");
+    //clear the state div
+    stateDiv.innerHTML = "";
+    //add a ul
+    let ul = document.createElement("ul");
+    stateDiv.appendChild(ul);
+    // and a li for each log, only the last 6 logs
+    if(logs.length > 6){
+        logs = logs.slice(logs.length - 6);
+    }
+    for(let i = 0; i < logs.length; i++){
+        let li = document.createElement("li");
+        li.innerHTML = logs[i];
+        ul.appendChild(li);
+        
     }
     
-    let alpha = 1, step = 0.2, max = logs.length > 5 ? 5 : logs.length;
-    for(let i = 0; i < max; i++){
-        let text = new fabric.IText(logs[i], {
-            left: 10,
-            top: 50 + i * 30,
-            fontSize: 26,
-            fill: 'black',
-            selectable: false,
-            opacity: alpha                                  
-        });
-        GAME.canvas.add(text);
-        alpha -= step;
-        logLabels.push(text);
-    }
-//    canvas.renderAll();
 }

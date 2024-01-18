@@ -1,9 +1,3 @@
-import { socket, objects, syncWithServer } from './comunication.js';
-import { addLog } from "./ui.js";
-
-
-
-
 
 
 function addCard(options, propagate = true, callback = function (card) { }) {
@@ -86,7 +80,7 @@ function addCard(options, propagate = true, callback = function (card) { }) {
       //only when the card is added locally
       //send the new state to the server to be propagated
       //to the other players
-      syncWithServer();
+      //syncWithServer();
     }
     callback(card)
   }

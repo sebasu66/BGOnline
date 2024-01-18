@@ -1,3 +1,4 @@
 ::run Node.js server
-node ./src/server/index.js
+::node ./src/server/index.js
+npm start
 

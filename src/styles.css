@@ -1,7 +1,233 @@
+
+:root {
+  --color-grey-1000: #191919;
+  --color-grey-700: #383838;
+  --color-grey-500: #707070;
+  --color-grey-300: #949494;
+  --color-grey-100: #ccc;
+  --color-grey-50: #ececee;
+  --color-grey-25: #f9f9fb;
+  --color-white: #fff;
+  --color-envato-green-900: #1a4200;
+  --color-envato-green-500: #64dc19;
+  --color-envato-green-100: #93dd65;
+  --color-green-25: #ecf6e5;
+  --color-blue-600: #035dd9;
+  --color-blue-25: #e6f0ff;
+  --color-yellow-25: #fefbea;
+  --color-veryberry: #b9004b;
+  --color-bubblegum: #e6afe1;
+  --color-jaffa: #ff6e28;
+  --color-yolk: #ffc800;
+  --color-softserve: #fff5ed;
+  --breakpoint-wide: 1024px;
+  --breakpoint-extra-wide: 1440px;
+  --breakpoint-2k-wide: 2560px;
+  --spacing-7x: 64px;
+  --spacing-6x: 40px;
+  --spacing-5x: 32px;
+  --spacing-4x: 24px;
+  --spacing-3x: 16px;
+  --spacing-2x: 8px;
+  --spacing-1x: 4px;
+  --spacing-none: 0;
+  --chunkiness-none: 0px;
+  --chunkiness-thin: 1px;
+  --chunkiness-thick: 2px;
+  --roundness-square: 0px;
+  --roundness-subtle: 4px;
+  --roundness-extra-round: 16px;
+  --roundness-circle: 48px;
+  --transition-base: 0.2s;
+  --font-family-wide: "PolySansWide","PolySans","Inter",-apple-system,"BlinkMacSystemFont","Segoe UI","Fira Sans","Helvetica Neue","Arial",sans-serif;
+  --font-family-regular: "PolySans","Inter",-apple-system,"BlinkMacSystemFont","Segoe UI","Fira Sans","Helvetica Neue","Arial",sans-serif;
+  --font-family-monospace: "Courier New",monospace;
+  --font-size-10x: 6rem;
+  --font-size-9x: 4.5rem;
+  --font-size-8x: 3rem;
+  --font-size-7x: 2.25rem;
+  --font-size-6x: 1.875rem;
+  --font-size-5x: 1.5rem;
+  --font-size-4x: 1.125rem;
+  --font-size-3x: 1rem;
+  --font-size-2x: 0.875rem;
+  --font-size-1x: 0.75rem;
+  --font-weight-bulky: 700;
+  --font-weight-median: 600;
+  --font-weight-neutral: 400;
+  --font-spacing-tight: -0.02em;
+  --font-spacing-normal: 0;
+  --font-spacing-loose: 0.02em;
+  --font-height-tight: 1;
+  --font-height-normal: 1.5;
+  --icon-size-5x: 48px;
+  --icon-size-4x: 40px;
+  --icon-size-3x: 32px;
+  --icon-size-2x: 24px;
+  --icon-size-1x: 16px;
+  --icon-size-text-responsive: calc(var(--font-size-3x)*1.5);
+  --layer-depth-ceiling: 9999;
+  --button-height-large: 48px;
+  --button-height-medium: 40px;
+  --button-font-family: var(--font-family-regular);
+  --button-font-size-large: var(--font-size-3x);
+  --button-font-size-medium: var(--font-size-2x);
+  --button-font-weight: var(--font-weight-median);
+  --button-font-height: var(--font-height-normal);
+  --button-font-spacing: var(--font-spacing-normal);
+  --text-style-chip-family: var(--font-family-regular);
+  --text-style-chip-spacing: var(--font-spacing-normal);
+  --text-style-chip-xlarge-size: var(--font-size-5x);
+  --text-style-chip-xlarge-weight: var(--font-weight-median);
+  --text-style-chip-xlarge-height: var(--font-height-tight);
+  --text-style-chip-large-size: var(--font-size-3x);
+  --text-style-chip-large-weight: var(--font-weight-neutral);
+  --text-style-chip-large-height: var(--font-height-normal);
+  --text-style-chip-medium-size: var(--font-size-2x);
+  --text-style-chip-medium-weight: var(--font-weight-neutral);
+  --text-style-chip-medium-height: var(--font-height-normal);
+  --text-style-campaign-large-family: var(--font-family-wide);
+  --text-style-campaign-large-size: var(--font-size-9x);
+  --text-style-campaign-large-spacing: var(--font-spacing-normal);
+  --text-style-campaign-large-weight: var(--font-weight-bulky);
+  --text-style-campaign-large-height: var(--font-height-tight);
+  --text-style-campaign-small-family: var(--font-family-wide);
+  --text-style-campaign-small-size: var(--font-size-7x);
+  --text-style-campaign-small-spacing: var(--font-spacing-normal);
+  --text-style-campaign-small-weight: var(--font-weight-bulky);
+  --text-style-campaign-small-height: var(--font-height-tight);
+  --text-style-title-1-family: var(--font-family-regular);
+  --text-style-title-1-size: var(--font-size-8x);
+  --text-style-title-1-spacing: var(--font-spacing-normal);
+  --text-style-title-1-weight: var(--font-weight-bulky);
+  --text-style-title-1-height: var(--font-height-tight);
+  --text-style-title-2-family: var(--font-family-regular);
+  --text-style-title-2-size: var(--font-size-7x);
+  --text-style-title-2-spacing: var(--font-spacing-normal);
+  --text-style-title-2-weight: var(--font-weight-median);
+  --text-style-title-2-height: var(--font-height-tight);
+  --text-style-title-3-family: var(--font-family-regular);
+  --text-style-title-3-size: var(--font-size-6x);
+  --text-style-title-3-spacing: var(--font-spacing-normal);
+  --text-style-title-3-weight: var(--font-weight-median);
+  --text-style-title-3-height: var(--font-height-tight);
+  --text-style-title-4-family: var(--font-family-regular);
+  --text-style-title-4-size: var(--font-size-5x);
+  --text-style-title-4-spacing: var(--font-spacing-normal);
+  --text-style-title-4-weight: var(--font-weight-median);
+  --text-style-title-4-height: var(--font-height-tight);
+  --text-style-subheading-family: var(--font-family-regular);
+  --text-style-subheading-size: var(--font-size-4x);
+  --text-style-subheading-spacing: var(--font-spacing-normal);
+  --text-style-subheading-weight: var(--font-weight-median);
+  --text-style-subheading-height: var(--font-height-normal);
+  --text-style-body-large-family: var(--font-family-regular);
+  --text-style-body-large-size: var(--font-size-3x);
+  --text-style-body-large-spacing: var(--font-spacing-normal);
+  --text-style-body-large-weight: var(--font-weight-neutral);
+  --text-style-body-large-height: var(--font-height-normal);
+  --text-style-body-large-strong-weight: var(--font-weight-bulky);
+  --text-style-body-small-family: var(--font-family-regular);
+  --text-style-body-small-size: var(--font-size-2x);
+  --text-style-body-small-spacing: var(--font-spacing-normal);
+  --text-style-body-small-weight: var(--font-weight-neutral);
+  --text-style-body-small-height: var(--font-height-normal);
+  --text-style-body-small-strong-weight: var(--font-weight-bulky);
+  --text-style-label-large-family: var(--font-family-regular);
+  --text-style-label-large-size: var(--font-size-3x);
+  --text-style-label-large-spacing: var(--font-spacing-normal);
+  --text-style-label-large-weight: var(--font-weight-median);
+  --text-style-label-large-height: var(--font-height-normal);
+  --text-style-label-small-family: var(--font-family-regular);
+  --text-style-label-small-size: var(--font-size-2x);
+  --text-style-label-small-spacing: var(--font-spacing-loose);
+  --text-style-label-small-weight: var(--font-weight-median);
+  --text-style-label-small-height: var(--font-height-normal);
+  --text-style-micro-family: var(--font-family-regular);
+  --text-style-micro-size: var(--font-size-1x);
+  --text-style-micro-spacing: var(--font-spacing-loose);
+  --text-style-micro-weight: var(--font-weight-neutral);
+  --text-style-micro-height: var(--font-height-tight);
+  --color-interactive-subscribe: var(--color-envato-green-100);
+  --color-interactive-subscribe-hover: var(--color-envato-green-500);
+  --color-interactive-primary: var(--color-grey-1000);
+  --color-interactive-primary-hover: var(--color-grey-700);
+  --color-interactive-secondary: transparent;
+  --color-interactive-secondary-hover: var(--color-grey-50);
+  --color-interactive-tertiary: transparent;
+  --color-interactive-tertiary-hover: var(--color-grey-50);
+  --color-interactive-disabled: var(--color-grey-50);
+  --color-surface-brand: var(--color-envato-green-900);
+  --color-surface-primary: var(--color-white);
+  --color-surface-inverse: var(--color-grey-1000);
+  --color-surface-accent: var(--color-grey-50);
+  --color-surface-info: var(--color-blue-25);
+  --color-surface-warning: var(--color-yellow-25);
+  --color-surface-error: var(--color-bubblegum);
+  --color-surface-success: var(--color-green-25);
+  --color-surface-elevated: var(--color-grey-700);
+  --color-overlay-default: rgba(25,25,25,.6);
+  --color-overlay-elevated: var(--color-white);
+  --color-content-brand: var(--color-envato-green-100);
+  --color-content-primary: var(--color-grey-1000);
+  --color-content-inverse: var(--color-white);
+  --color-content-subscribe: var(--color-envato-green-900);
+  --color-content-brand-accent: var(--color-envato-green-100);
+  --color-content-secondary: var(--color-grey-500);
+  --color-content-disabled: var(--color-grey-300);
+  --color-content-info: var(--color-blue-600);
+  --color-content-warning: var(--color-yolk);
+  --color-content-error: var(--color-veryberry);
+  --color-content-success: var(--color-envato-green-500);
+  --color-border-primary: var(--color-grey-1000);
+  --color-border-secondary: var(--color-grey-300);
+  --color-border-tertiary: var(--color-grey-100);
+}
+
+/*import Lato font*/
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital@1&family=Single+Day&family=Special+Elite&display=swap');
+
 body {
+    margin: 30;
+    padding: 30;
+    font-family: 'Lato', sans-serif;
+    /*font-family: 'Single Day', cursive;
+    font-family: 'Special Elite', system-ui;*/
+    font-weight: 400;
+    /*antialiasing*/
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: coral;
+    background: radial-gradient(circle at center, #476143, #2e5c2e 59%, #2e4e2e 96%);
+    height: 100vh;
     margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+     }
+
+
+     .noise {
+            /* Fullscreen */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='3' height='3'%3E%3Cdefs%3E%3Cfilter id='noise' x='0' y='0'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.33' numOctaves='2' result='warp'%3E%3C/feTurbulence%3E%3CfeColorMatrix type='matrix' values='1 0 0 0 0  0 1 0 0 0  0 0 1 0 0 0 0 0 20 -10' result='contrast'%3E%3C/feColorMatrix%3E%3C/filter%3E%3C/defs%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    opacity: 0.3;
+
+        }
+
+.statusList{
+    margin-bottom: 10px;
+    color: #fff;
+    position: absolute;
+    /*word wrap*/
+    word-wrap: break-word;
+    top: 100px;
+    right:100px;
+    padding: 10px;
+    display: block;                       
 }
 
 #menu {
@@ -9,6 +235,8 @@ body {
     color: #fff;
     padding: 10px;
 }
+
+
 
 #grid-container {
     display: grid;
@@ -62,4 +290,120 @@ body {
     padding: 10px;
     transition: 0.5s all ease-in-out;
   }
+ 
+  /*Animated dice css */
+
+  h1 {
+  font-family: Arial, Helvetica, sans-serif;
+  text-align: center;
+}
+
+#cube .front {
+  transform: 
+    translateZ(100px);
+}
+
+#cube .back {
+  transform: 
+    rotateX(-180deg)
+    translateZ(100px);
+}
+
+#cube .right {
+  transform:
+    rotateY(90deg)
+    translateZ(100px);
+}
+
+#cube .left {
+  transform:
+    rotateY(-90deg)
+    translateZ(100px);
+}
+
+#cube .top {
+  transform:
+    rotateX(90deg)
+    translateZ(100px);
+}
+
+#cube .bottom {
+  transform:
+    rotateX(-90deg)
+    translateZ(100px);
+}
+
+.container {
+  width: 200px;
+  height: 200px;
+  position: relative;
+  margin: 0 auto 40px;
+  border: 1px solid #FFF;
   
+  perspective: 1000px;
+  perspective-origin: 50% 100%;
+}
+
+#cube {
+  width: 100%;
+  height: 100%;
+  top: 100px;
+  position: absolute;
+  
+  transform-style: preserve-3d;
+  
+  transition: transform 6s;
+}
+
+#cube:hover {
+  cursor: pointer;
+}
+
+#cube div {
+  background: hsla(0, 85%, 50%, 0.8);
+  display: block;
+  position: absolute;
+  width: 200px;
+  height: 100px;
+  border: 2px solid #ab1a1a;
+  
+  margin: 0 auto;  
+  
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 500%;
+  text-align: center;
+  padding: 50px 0;
+}
+
+.dot {
+  display: block;
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  background: #fff;
+  border-radius: 15px;  
+}
+
+
+
+.imgDice { top: 0px; left: 0px; position: absolute; }
+
+/*disconnected modal*/
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 2; /* Sit on top */
+  left: 10%; /* Centering */
+  top: 10%;
+  width: 80%; /* Width of the modal */
+  height: 80%; /* Height of the modal */
+  background-color: rgba(0,0,0,0.6); /* Semi-transparent background */
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+}
